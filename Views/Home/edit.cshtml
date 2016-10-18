@@ -1,0 +1,88 @@
+@model userDashboard.Models.UserReg
+@using userDashboard.Controllers
+
+<html>
+    <head>
+        <meta charset='UTF-8'>
+        <title>Edif Info</title>
+        <style>
+            #edit_info, #edit-password{
+                display: inline-block;
+                padding: 40px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="container">
+            <div id="menu">
+                <h3>Test App</h3>
+                <a href="/dashboard">Dashboard</a>
+                <a href="/edit/@ViewBag.id">Profile</a>
+                <a href="/log-off">Log off</a>
+            </div>
+            @if(!@ViewBag.self){
+                <h2>Edit User #@Model.id </h2>
+            }else{
+                <h2>Edit Profile</h2>
+            }
+            <div id="edit_info">
+                <h4>Edit Information</h4>
+                <form asp-controller="Home" asp-action="Update" asp-route-example="edit/@Model.id" method="post">
+                    <label asp-for="email">Email Address:</label>
+                    <input asp-for="email"/>
+                    <span asp-validation-for="email"></span>
+                    <label asp-for="first_name">First Name:</label>
+                    <input asp-for="first_name"/>
+                    <span asp-validation-for="first_name"></span>
+                    <label asp-for="last_name">Last Name:</label>
+                    <input asp-for="last_name"/>
+                    <span asp-validation-for="last_name"></span>
+                    @if(@ViewBag.admin){
+                        <label for="user_level">User Level:</label>
+                        <select asp-for="user_level">
+                            <option value="normal">Normal</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                        <span asp-validation-for="user_level"></span>
+                    }
+                    <input type="hidden" asp-for="password">
+                    <input type="hidden" asp-for="password_confirmation">
+                    <input type="hidden" name="type" value="info">
+                    <button type="submit">Save</button>
+                </form>
+            </div>
+
+            <div id="edit-password">
+                <h4>Change Password</h4>
+                <form asp-controller="Home" asp-action="Update" asp-route-example="edit/@Model.id" method="post">
+                    <label for="password">Password:</label>
+                    <input type="text" name="password">
+                    <span asp-validation-for="password"></span>
+                    <label for="password_confirmation">Password Confirmation:</label>
+                    <input type="text" name="password_confirmation"/>
+                    <span asp-validation-for="password_confirmation"></span>
+                    <input type="hidden" asp-for="email"/>
+                    <input type="hidden" asp-for="first_name"/>
+                    <input type="hidden" asp-for="last_name"/>
+                    <input type="hidden" name="type" value="password">
+                    <button type="submit">Update Password</button>
+                </form>
+            </div>
+            @if(@ViewBag.self){
+                <div id="edit-description">
+                    <h4>Edit Description</h4>
+                    <form asp-controller="Home" asp-action="Update" asp-route-example="edit/@Model.id" method="post">
+                        <input asp-for="description"/>
+                        <input type="hidden" asp-for="password">
+                        <input type="hidden" asp-for="password_confirmation">
+                        <input type="hidden" asp-for="email"/>
+                        <input type="hidden" asp-for="first_name"/>
+                        <input type="hidden" asp-for="last_name"/>
+                        <input type="hidden" name="type" value="description">
+                        <button type="submit">Save</button>
+                    </form>
+                </div>
+            }
+        </div>
+    </body>
+</html>

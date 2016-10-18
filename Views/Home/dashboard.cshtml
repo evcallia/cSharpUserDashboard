@@ -1,0 +1,58 @@
+@model IEnumerable<userDashboard.Models.User>
+@using userDashboard.Controllers
+
+<html>
+    <head>
+        <meta charset='UTF-8'>
+        <title></title>
+    </head>
+    <body>
+         <!--<div id="container">-->
+            <div id="menu">
+                <h3>Test App</h3>
+                <a href="/dashboard">Dashboard</a>
+                <a href='/edit/@ViewBag.id'>Profile</a>
+                <a href="/log-off">Log off</a>
+            </div>
+            <div id="content">
+                @{
+                    if(ViewBag.user_level == "admin"){
+                        <div class="row">
+                            <div class="seven columns"><h3>Manage Users</h3></div>
+                            <div class="one column"><a href="/add-user"><button>Add New</button></a></div>
+                        </div>
+                    }else{
+                        <h3>All Users</h3>
+                    }
+                }
+                <table>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email </th>
+                        <th>Created At</th>
+                        <th>User Level</th>
+                        @if(@ViewBag.user_level == "admin"){
+                            <th>Actions</th>
+                        }
+                    </tr>
+                    @foreach(var user in Model){
+                        <tr>
+                            <td>@user.id</td>
+                            <td><a href="show-user/@user.id">@user.first_name @user.last_name</a></td>
+                            <td>@user.email</td>
+                            <td>@user.CreatedAt</td>
+                            <td>@user.user_level</td>
+                            @if(@ViewBag.user_level == "admin"){
+                                <td>
+                                    <a href="/edit/@user.id">Edit</a>
+                                    <a href="/remove/@user.id">Remove</a>
+                                </td>
+                            }
+                        </tr>
+                    }
+                </table>
+            </div>
+         <!--</div>-->
+    </body>
+</html>

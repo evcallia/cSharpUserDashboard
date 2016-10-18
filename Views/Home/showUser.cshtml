@@ -1,0 +1,57 @@
+@model userDashboard.Models.User
+
+<html>
+    <head>
+        <meta charset='UTF-8'>
+        <title></title>
+    </head>
+    <body>
+        <div id="container">
+            <div id="menu">
+                <h3>Test App</h3>
+                <a href="/dashboard">Dashboard</a>
+                <a href="/edit-user">Profile</a>
+                <a href="/log-off">Log off</a>
+            </div>
+            <div id="info">
+                <h3>@Model.first_name @Model.last_name</h3>
+                <p>Registered at: @Model.CreatedAt</p>
+                <p>User ID: @Model.id</p>
+                <p>Email Address: @Model.email</p>
+                <p>Description: @Model.description</p>
+            </div>
+            <div id="messages">
+                <h4>Leave a message for @Model.first_name</h4>
+                <form action="/message" method="POST">
+                    <textarea name="message" cols="30" rows="10"></textarea>
+                    <input type="hidden" name="posterId" value="@ViewBag.posterId">
+                    <input type="hidden" name="userId" value="@Model.id">
+                    <input type="submit" value="Post">
+                </form>
+                @foreach(var message in @Model.messagesTo){
+                    <div class="message">
+                        <p>@message.posterId</p>
+                        <p>current time- @message.UpdatedAt</p>
+                        <p>@message.message</p>
+                        @if(message.comments != null){
+                            @foreach(var comment in @message.comments){
+                                <div class="comment">
+                                    <p>@comment.commenterId</p>
+                                    <p>current time- @comment.UpdatedAt</p>
+                                    <p>@comment.comment</p>
+                                </div>
+                            }
+                        }
+                        <form action="/comment" method="POST">
+                            <textarea name="comment" cols="30" rows="10"></textarea>
+                            <input type="hidden" name="commenterId" value="@ViewBag.posterId">
+                            <input type="hidden" name="messageId" value="@message.id">
+                            <input type="hidden" name="userId" value="@Model.id">
+                            <input type="submit" value="Post">
+                        </form>
+                    </div>
+                }
+            </div>
+        </div>
+    </body>
+</html>

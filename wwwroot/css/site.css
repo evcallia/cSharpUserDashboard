@@ -1,0 +1,5 @@
+/*Write all of your CSS here*/
+#menu *{
+    display:  inline;
+    padding: 30px;
+}

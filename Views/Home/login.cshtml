@@ -1,0 +1,28 @@
+@model userDashboard.Models.User
+
+<html>
+    <head>
+        <meta charset='UTF-8'>
+        <title>Log In</title>
+    </head>
+    <body>
+         <div id="container">
+            <div id="menu">
+                <h3>Test App</h3>
+                <a href="/welcome">Home</a>
+                <a href="/login">Sign in</a>
+            </div>
+            <form asp-controller="Home" asp-action="Login" method="post">
+                <label asp-for="email">Email Address:</label>
+                <input asp-for="email"/>
+                <span asp-validation-for="email"></span>
+                <label asp-for="password"></label>
+                <input asp-for="password"/>
+                <span asp-validation-for="password"></span>
+                <br>
+                <button type="submit">Sign In</button>
+            </form>
+            <a href="/register">Don't' have an account? Register</a>
+        </div>
+    </body>
+</html>
